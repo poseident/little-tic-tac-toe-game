@@ -1,7 +1,4 @@
-#include <unistd.h>
-#include <sys/wait.h>
-#include <string.h>
-#include <stdio.h>
+#include <string>
 #include <iostream>
 
 void print_board();
@@ -34,7 +31,6 @@ int main(void)
     std::cout << std::endl << "Instructions: Press the number of the space that you wish to put your O/X." << std::endl;
     std::cout << "Objective: Get 3 in a row of O/X to win! That's it!" << std::endl << std::endl;
 
-    //print_board();
     play_game();
 }
 
@@ -182,6 +178,16 @@ void put_piece(std::string input, int turn)
     }
 }
 
+int in_the_board(std::string input)
+{
+    int i = stoi(input);
+
+    if (i > 9 || i < 1)
+        return (0);
+    else
+        return (1);
+}
+
 void player_turn(int turn)
 {
     std::string input;
@@ -197,9 +203,10 @@ void player_turn(int turn)
         std::cin >> input;
         if (taken(input))
             std::cout << "this piece is already taken" << std::endl;
-    } while (taken(input) && in_the_board(input));
+        if (!in_the_board(input))
+            std::cout << stoi(input) << " is not available on the board" << std::endl;
+    } while (taken(input) || !in_the_board(input));
     put_piece(input, turn);
-    //print_board();
 }
 
 void print_board()
