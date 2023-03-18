@@ -3,7 +3,7 @@
 
 void print_board();
 void play_game();
-int win_check();
+int win_check(int turn);
 void player_turn(int turn);
 
 enum space_filler
@@ -272,101 +272,83 @@ void play_game(void)
     int piece_on_board = 0;
     int turn = 0;
     std::string input;
+    bool win = false;
 
     std::cout << "choose a number between 1 and 9 to put your piece in the board" << std::endl;
-    while (!win_check() && piece_on_board < 9)
+    while (!win && piece_on_board < 9)
     {
         player_turn(turn);
+        win = win_check(turn);
         turn++;
         piece_on_board++;
     }
-    if (piece_on_board == 9)
+    if (piece_on_board == 9 && !win)
         std::cout << "its a draw gg !" << std::endl;
     return ;
 }
 
-int win_check(void)
+int win_check(int turn)
 {
-    if(center == O && Left_center == O && Upper_Right_Corner == O)
-    {
-        std::cout << "Player 1 wins!" << std::endl;
-        return (1);
-    }
-    else if(center == O && Upper_center == O && Bottom_center == O)
-    {
-        std::cout << "Player 1 wins!" << std::endl;
-        return (1);
-    }
-    else if(center == O && Right_center == O && Bottom_right_corner == O)
-    {
-        std::cout << "Player 1 wins!" << std::endl;
-        return (1);
-    }
-    else if(Upper_center == O && Right_center == O && Bottom_left_corner == O)
-    {
-        std::cout << "Player 1 wins!" << std::endl;
-        return (1);
-    }
-    else if(Bottom_center == O && Upper_Left_Corner == O && Bottom_right_corner == O)
-    {
-        std::cout << "Player 1 wins!" << std::endl;
-        return (1);
-    }
-    else if(Left_center == O && Right_center == O && Upper_Left_Corner == O)
-    {
-        std::cout << "Player 1 wins!" << std::endl;
-        return (1);
-    }
-    else if(Upper_Right_Corner == O && Bottom_left_corner == O && Bottom_right_corner == O)
-    {
-        std::cout << "Player 1 wins!" << std::endl;
-        return (1);
-    }
-    else if(Upper_Right_Corner == O && Right_center == O && Bottom_center == O)
-    {
-        std::cout << "Player 1 wins!" << std::endl;
-        return (1);
-    }
-    else if(center == X && Left_center == X && Upper_Right_Corner == X)
-    {
-        std::cout << "Player 2 wins!" << std::endl;
-        return (1);
-    }
-    else if(center == O && Upper_center == O && Bottom_center == O)
-    {
-        std::cout << "Player 2 wins!" << std::endl;
-        return (1);
-    }
-    else if(center == X && Right_center == X && Bottom_right_corner == X)
-    {
-        std::cout << "Player 2 wins!" << std::endl;
-        return (1);
-    }
-    else if(Upper_center == X && Right_center == X && Bottom_left_corner == X)
-    {
-        std::cout << "Player 2 wins!" << std::endl;
-        return (1);
-    }
-    else if(Bottom_center == X && Upper_Left_Corner == X && Bottom_right_corner == X)
-    {
-        std::cout << "Player 2 wins!" << std::endl;
-        return (1);
-    }
-    else if(Left_center == X && Right_center == X && Upper_Left_Corner == X)
-    {
-        std::cout << "Player 2 wins!" << std::endl;
-        return (1);
-    }
-    else if(Upper_Right_Corner == X && Bottom_left_corner == X && Bottom_right_corner == X)
-    {
-        std::cout << "Player 2 wins!" << std::endl;
-        return (1);
-    }
-    else if(Upper_Right_Corner == X && Right_center == X && Bottom_center == X)
-    {
-        std::cout << "Player 2 wins!" << std::endl;
-        return (1);
-    }
+    space_filler checker;
+    space_filler checker2;
+    space_filler checker3;
+    int player;
+
+    if (turn % 2 == 0)
+        player = 1;
     else
-        return (0);
+        player = 2;
+    if (center != blank)
+    {
+        checker = center;
+        if(Left_center == checker && Upper_Right_Corner == checker)
+        {
+            std::cout << "Player " << player << " wins!" << std::endl;
+            return (1);
+        }
+        else if(Upper_center == checker && Bottom_center == checker)
+        {
+            std::cout << "Player " << player << " wins!" << std::endl;
+            return (1);
+        }
+    }
+    if (Right_center != blank)
+    {
+        checker2 = Right_center;
+        if(Right_center == checker2 && Bottom_right_corner == checker2)
+        {
+            std::cout << "Player " << player << " wins!" << std::endl;
+            return (1);
+        }
+        else if(Left_center == checker2 && Upper_Left_Corner == checker2)
+        {
+            std::cout << "Player " << player << " wins!" << std::endl;
+            return (1);
+        }
+        else if(Upper_center == checker2 && Bottom_left_corner == checker2)
+        {
+            std::cout << "Player " << player << " wins!" << std::endl;
+            return (1);
+        }
+        else if(Upper_Right_Corner == checker2 && Bottom_center == checker2)
+        {
+            std::cout << "Player " << player << " wins!" << std::endl;
+            return (1);
+        }
+    }
+    if (Bottom_right_corner != blank)
+    {
+        checker3 = Bottom_right_corner;
+        if(Bottom_center == checker3 && Upper_Left_Corner == checker3)
+        {
+            std::cout << "Player " << player << " wins!" << std::endl;
+            return (1);
+        }
+        else if(Upper_Right_Corner == checker3 && Bottom_left_corner == checker3)
+        {
+            std::cout << "Player " << player << " wins!" << std::endl;
+            return (1);
+        }
+    }
+    return (0);
 }
