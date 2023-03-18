@@ -100,81 +100,23 @@ int taken(std::string input)
 void put_piece(std::string input, int turn)
 {
     int i = stoi(input);
+    space_filler piece;
 
+    if (turn % 2 == 0)
+        piece = O;
+    else
+        piece = X;
     switch(i)
     {
-        case 1:
-        {
-            if (turn % 2 == 0)
-                center = O;
-            else
-                center = X;
-            break;
-        }
-        case 2:
-        {
-            if (turn % 2 == 0)
-                Upper_center = O;
-            else
-                Upper_center = X;
-            break;
-        }
-        case 3:
-        {
-            if (turn % 2 == 0)
-                Bottom_center = O;
-            else
-                Bottom_center = X;
-            break;
-        }
-        case 4:
-        {
-            if (turn % 2 == 0)
-                Left_center = O;
-            else
-                Left_center = X;
-            break;
-        }
-        case 5:
-        {
-            if (turn % 2 == 0)
-                Right_center = O;
-            else
-                Right_center = X;
-            break;
-        }
-        case 6:
-        {
-            if (turn % 2 == 0)
-                Upper_Left_Corner = O;
-            else
-                Upper_Left_Corner = X;
-            break;
-        }
-        case 7:
-        {
-            if (turn % 2 == 0)
-                Upper_Right_Corner = O;
-            else
-                Upper_Right_Corner = X;
-            break;
-        }
-        case 8:
-        {
-            if (turn % 2 == 0)
-                Bottom_left_corner = O;
-            else
-                Bottom_left_corner = X;
-            break;
-        }
-        case 9:
-        {
-            if (turn % 2 == 0)
-                Bottom_right_corner = O;
-            else
-                Bottom_right_corner = X;
-            break;
-        }
+        case 1: center = piece; break;
+        case 2: Upper_center = piece; break;
+        case 3: Bottom_center = piece; break;
+        case 4: Left_center = piece; break;
+        case 5: Right_center = piece;  break;
+        case 6: Upper_Left_Corner = piece; break;
+        case 7: Upper_Right_Corner = piece; break;
+        case 8: Bottom_left_corner = piece; break;
+        case 9: Bottom_right_corner = piece; break;
     }
 }
 
@@ -315,7 +257,7 @@ int win_check(int turn)
     if (Right_center != blank)
     {
         checker2 = Right_center;
-        if(Right_center == checker2 && Bottom_right_corner == checker2)
+        if(center == checker2 && Bottom_right_corner == checker2)
         {
             std::cout << "Player " << player << " wins!" << std::endl;
             return (1);
@@ -332,6 +274,7 @@ int win_check(int turn)
         }
         else if(Upper_Right_Corner == checker2 && Bottom_center == checker2)
         {
+
             std::cout << "Player " << player << " wins!" << std::endl;
             return (1);
         }
